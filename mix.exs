@@ -10,12 +10,13 @@ defmodule Kvs.Mixfile do
   # Configuration for the OTP application
   def application do
     [ registered: [:store_sup],
+      applications: [:ranch],
       mod: {Kvs, []} ]
   end
 
   # Returns the list of dependencies in the format:
   # { :foobar, "0.1", git: "https://github.com/elixir-lang/foobar.git" }
   defp deps do
-    []
+    [{:ranch, git: "https://github.com/extend/ranch.git", tag: "0.6.1"}]
   end
 end

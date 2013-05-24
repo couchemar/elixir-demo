@@ -17,7 +17,7 @@ defmodule KVS.Store do
   def handle_call(:pop, _from, stack) when length(stack) == 0, do: {:reply, :nothing, stack}
 
   def handle_call(:pop, _from, [value|stack]) do
-    {:reply, {:ok, value}, stack}
+    {:reply, value, stack}
   end
 
   def handle_call(:sum, _from, stack) when length(stack) < 2, do: {:reply, :not_enough, stack}
@@ -26,6 +26,6 @@ defmodule KVS.Store do
     [a|stack] = stack
     [b|stack] = stack
     s = a + b
-    {:reply, {:ok, s}, [s|stack]}
+    {:reply, s, [s|stack]}
   end
 end
