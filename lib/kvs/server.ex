@@ -28,4 +28,23 @@ defmodule KVS.Store do
     s = a + b
     {:reply, s, [s|stack]}
   end
+
+  def handle_call(:amax, {return_pid, _}, stack) do
+    rb = :crypto.rand_bytes(8)
+    token = :base64.encode(rb)
+    self_pid = self
+    Process.spawn(fn() ->
+                      :timer.sleep(5000)
+                      max = Enum.max(stack)
+                      :gen_server.cast(return_pid, {:async_result, token, max})
+                      :gen_server.cast(self_pid, {:delete, max})
+                  end)
+    {:reply, {:token, token}, stack}
+  end
+
+  def handle_cast({:delete, element}, stack) do
+    stack = List.delete(stack, element)
+    {:noreply, stack}
+  end
+
 end

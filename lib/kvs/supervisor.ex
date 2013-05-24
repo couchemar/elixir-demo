@@ -42,4 +42,13 @@ defmodule KVS.Store.Supervisor do
     end
   end
 
+  def amax(key) do
+    case :ets.lookup(:kvs_reg, key) do
+      [] ->
+        :nothing
+      [{^key, pid}|_] ->
+        :gen_server.call(pid, :amax)
+    end
+  end
+
 end

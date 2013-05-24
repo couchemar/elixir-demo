@@ -17,12 +17,22 @@ defmodule KVS.Protocol do
                                                      transport: transport))
   end
 
+  def handle_cast({:async_result, token, result},
+                  State[socket: socket,
+                        transport: transport] = state) do
+    result = integer_to_binary(result)
+    transport.send(socket, "+#{token} #{result}\n\r")
+    {:noreply, state}
+  end
+
   def handle_info({:tcp, socket, data}, State[socket: socket,
                                               transport: transport] = state) do
     :ok = transport.setopts(socket, active: :once)
     result = case process_data(String.strip(data)) do
                data when is_atom(data) ->
                  atom_to_binary(data)
+               {:token, token} ->
+                 "token " <> token
                data ->
                  integer_to_binary(data)
              end
@@ -40,6 +50,10 @@ defmodule KVS.Protocol do
 
   defp process_data(<<"sum ", key :: bitstring>>) do
     KVS.Store.Supervisor.sum(key)
+  end
+
+  defp process_data(<<"amax ", key :: bitstring>>) do
+    KVS.Store.Supervisor.amax(key)
   end
 
   defp process_data(data) do
