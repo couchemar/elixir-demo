@@ -55,7 +55,7 @@ defmodule KVS.Protocol do
     end
   end
 
-  defp process_command(command) do
+  defp process_command(_command) do
     :unknown_command
   end
 
