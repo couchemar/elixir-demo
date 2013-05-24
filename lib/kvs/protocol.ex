@@ -26,7 +26,7 @@ defmodule KVS.Protocol do
                data ->
                  integer_to_binary(data)
              end
-    transport.send(socket, <<result ::binary, "\n\r">>)
+    transport.send(socket, result <> "\n\r")
     {:noreply, state}
   end
 

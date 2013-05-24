@@ -17,6 +17,6 @@ defmodule Kvs.Mixfile do
   # Returns the list of dependencies in the format:
   # { :foobar, "0.1", git: "https://github.com/elixir-lang/foobar.git" }
   defp deps do
-    [{:ranch, git: "https://github.com/extend/ranch.git", tag: "0.6.1"}]
+    [{:ranch, git: "https://github.com/extend/ranch.git", tag: "0.8.3"}]
   end
 end
