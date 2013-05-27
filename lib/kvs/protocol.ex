@@ -56,6 +56,14 @@ defmodule KVS.Protocol do
     KVS.Store.Supervisor.amax(key)
   end
 
+  defp process_data(<<"load_hook ", hook :: bitstring>>) do
+    KVS.Lua_server.load_hook(hook)
+  end
+
+  defp process_data(<<"add_hook ", key :: bitstring>>) do
+    KVS.Store.Supervisor.add_hook(key)
+  end
+
   defp process_data(data) do
     process_command(String.split(data))
   end
