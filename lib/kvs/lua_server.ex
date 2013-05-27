@@ -16,7 +16,7 @@ defmodule KVS.Lua_server do
   end
 
   def handle_call({:hook, value}, _from, lua) do
-    {[res], lua} = :luerl.do("return hook(#{value})", lua)
+    {[res], lua} = :luerl.call_function([:hook], [value], lua)
     {:reply, trunc(res), lua}
   end
 
