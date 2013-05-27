@@ -11,14 +11,13 @@ defmodule KVS.Lua_server do
   end
 
   def handle_call({:load, hook}, _from, lua) do
-    lua = :luerl.do(hook, lua)
+    {_, lua} = :luerl.do(hook, lua)
     {:reply, :ok, lua}
   end
 
   def handle_call({:hook, value}, _from, lua) do
-    IO.puts(value)
-    {res, lua} = :luerl.do("return hook(#{value})", lua)
-    {:reply, res, lua}
+    {[res], lua} = :luerl.do("return hook(#{value})", lua)
+    {:reply, trunc(res), lua}
   end
 
   def load_hook(hook) do
