@@ -64,6 +64,10 @@ defmodule KVS.Protocol do
     KVS.Store.Supervisor.add_hook(key)
   end
 
+  defp process_data(<<"remove_hook ", key :: bitstring>>) do
+    KVS.Store.Supervisor.remove_hook(key)
+  end
+
   defp process_data(data) do
     process_command(String.split(data))
   end

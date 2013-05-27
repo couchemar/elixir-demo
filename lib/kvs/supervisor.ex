@@ -60,4 +60,13 @@ defmodule KVS.Store.Supervisor do
     end
   end
 
+  def remove_hook(key) do
+    case :ets.lookup(:kvs_reg, key) do
+      [] ->
+        :no_process
+      [{^key, pid}|_] ->
+        :gen_server.call(pid, :remove_hook)
+    end
+  end
+
 end

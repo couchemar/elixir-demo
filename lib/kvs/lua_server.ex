@@ -11,8 +11,14 @@ defmodule KVS.Lua_server do
   end
 
   def handle_call({:load, hook}, _from, lua) do
-    {_, lua} = :luerl.do(hook, lua)
-    {:reply, :ok, lua}
+    {result, lua} = try do
+                      {_, lua} = :luerl.do(hook, lua)
+                      {:ok, lua}
+                    rescue
+                      _error ->
+                        {:error, lua}
+                    end
+    {:reply, result, lua}
   end
 
   def handle_call({:hook, value}, _from, lua) do

@@ -49,8 +49,12 @@ defmodule KVS.Store do
     {:reply, {:token, token}, state}
   end
 
-  def handle_call(:add_hook, _from, State[hooked: hooked] = state) do
+  def handle_call(:add_hook, _from, state) do
     {:reply, :ok, state.hooked(true)}
+  end
+
+  def handle_call(:remove_hook, _from, state) do
+    {:reply, :ok, state.hooked(false)}
   end
 
   def handle_cast({:delete, element}, State[stack: stack] = state) do
