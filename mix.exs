@@ -11,7 +11,8 @@ defmodule Kvs.Mixfile do
   def application do
     [ registered: [:store_sup],
       applications: [:ranch],
-      mod: {Kvs, []} ]
+      mod: {Kvs, []},
+      env: [ listen_port: 8090 ] ]
   end
 
   # Returns the list of dependencies in the format:

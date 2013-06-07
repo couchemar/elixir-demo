@@ -2,8 +2,9 @@ defmodule Kvs do
   use Application.Behaviour
 
   def start(_type, []) do
+    {:ok, listen_port} = :application.get_env(:listen_port)
     {:ok, _} = :ranch.start_listener(KVS.Protocol, 100,
-                                     :ranch_tcp, [port: 8090],
+                                     :ranch_tcp, [port: listen_port],
                                      KVS.Protocol, [])
     KVS.Supervisor.start_link()
   end
