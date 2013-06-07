@@ -12,7 +12,11 @@ defmodule Kvs.Mixfile do
     [ registered: [:store_sup],
       applications: [:ranch],
       mod: {Kvs, []},
-      env: [ listen_port: 8090 ] ]
+      env: [ listen_port: 8090,
+             nodes: [ :"node1@couchemar",
+                      :"node2@couchemar",
+                      :"node3@couchemar" ]
+           ] ]
   end
 
   # Returns the list of dependencies in the format:

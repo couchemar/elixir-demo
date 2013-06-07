@@ -15,57 +15,68 @@ defmodule KVS.Store.Supervisor do
   end
 
   def push(key, value) do
-    case :ets.lookup(:kvs_reg, key) do
-      [] ->
+    case search_key(key) do
+      :no_process ->
         :supervisor.start_child(:store_sup, [key, value])
-      [{^key, pid}|_] ->
+      pid ->
         :gen_server.call(pid, {:push, value})
     end
     :ok
   end
 
   def pop(key) do
-    case :ets.lookup(:kvs_reg, key) do
-      [] ->
+    case search_key(key) do
+      :no_process ->
         :nothing
-      [{^key, pid}|_] ->
+      pid ->
         :gen_server.call(pid, :pop)
     end
   end
 
   def sum(key) do
-    case :ets.lookup(:kvs_reg, key) do
-      [] ->
+    case search_key(key) do
+      :no_process ->
         :nothing
-      [{^key, pid}|_] ->
+      pid ->
         :gen_server.call(pid, :sum)
     end
   end
 
   def amax(key) do
-    case :ets.lookup(:kvs_reg, key) do
-      [] ->
+    case search_key(key) do
+      :no_process ->
         :nothing
-      [{^key, pid}|_] ->
+     pid ->
         :gen_server.call(pid, :amax)
     end
   end
 
   def add_hook(key) do
-    case :ets.lookup(:kvs_reg, key) do
-      [] ->
+    case search_key(key) do
+      :no_process ->
         :no_process
-      [{^key, pid}|_] ->
+      pid ->
         :gen_server.call(pid, :add_hook)
     end
   end
 
   def remove_hook(key) do
-    case :ets.lookup(:kvs_reg, key) do
+    case search_key(key) do
+      :no_process ->
+        :no_process
+      pid ->
+        :gen_server.call(pid, :remove_hook)
+    end
+  end
+
+  defp search_key(key) do
+    {results, _} = :rpc.multicall :ets, :lookup, [:kvs_reg, key]
+
+    case Enum.filter(results, fn(x) -> x != [] end) do
+      [[{^key, pid}]] ->
+        pid
       [] ->
         :no_process
-      [{^key, pid}|_] ->
-        :gen_server.call(pid, :remove_hook)
     end
   end
 
