@@ -24,6 +24,6 @@ defmodule Kvs.Mixfile do
   defp deps do
     [{:ranch, git: "https://github.com/extend/ranch.git", tag: "0.8.3"},
      {:luerl, git: "https://github.com/rvirding/luerl.git", branch: "new-engine",
-      compile: "sh -c 'make && cp src/luerl.app.src ebin/luerl.app'"}]
+      compile: "make && cp src/luerl.app.src ebin/luerl.app"}]
   end
 end
