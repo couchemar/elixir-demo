@@ -73,7 +73,7 @@ defmodule KVS.Protocol do
   end
 
   defp process_command(["push", key, value]) do
-    case String.to_integer(value) do
+    case Integer.parse(value) do
       {value, _} ->
         KVS.Store.Supervisor.push(key, value)
       :error ->

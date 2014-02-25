@@ -1,4 +1,4 @@
-Code.append_path "deps/relex/ebin"
+Code.append_path "_build/dev/lib/relex/ebin/"
 
 defmodule Kvs.Mixfile do
   use Mix.Project
@@ -28,14 +28,14 @@ defmodule Kvs.Mixfile do
     [{:ranch, git: "https://github.com/extend/ranch.git", tag: "0.8.3"},
      {:luerl, git: "https://github.com/couchemar/luerl.git", branch: "new-engine",
       compile: "make && cp src/luerl.app.src ebin/luerl.app"},
-     {:relex, github: "yrashk/relex"}]
+     {:relex, github: "myers/relex", branch: "fix-elixir-0.12.4-deprecation-warning"}]
   end
 
   if Code.ensure_loaded?(Relex.Release) do
     defmodule Release do
       use Relex.Release
 
-      def name, do: atom_to_binary(Mix.project()[:app], :utf8)
+      def name, do: atom_to_binary Mix.project()[:app]
       def version, do: Mix.project[:version]
       def applications, do: [Mix.project()[:app], :luerl]
       def lib_dirs, do: ["deps"]

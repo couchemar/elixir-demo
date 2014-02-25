@@ -1,3 +1,3 @@
-[ "luerl": {:git, "https://github.com/couchemar/luerl.git", "fa468713e4419bc067e189a3b266d4ee14313ba1", [{:branch, "new-engine"}]},
-  "ranch": {:git, "https://github.com/extend/ranch.git", "53be20d25f94095ec9b44c5bd03cf158dd5a6820", [{:tag, "0.8.3"}]},
-  "relex": {:git, "git://github.com/yrashk/relex.git", "59ca8af106d7a71d0e75d65db489ca362f64e244", []} ]
+[ "luerl": {:git, "https://github.com/couchemar/luerl.git", "fa468713e4419bc067e189a3b266d4ee14313ba1", [branch: "new-engine"]},
+  "ranch": {:git, "https://github.com/extend/ranch.git", "53be20d25f94095ec9b44c5bd03cf158dd5a6820", [tag: "0.8.3"]},
+  "relex": {:git, "git://github.com/myers/relex.git", "9f9fcd7f39a5dcfafa668b97fa3cca734d2fc5b7", [branch: "fix-elixir-0.12.4-deprecation-warning"]} ]
